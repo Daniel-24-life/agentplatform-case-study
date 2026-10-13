@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "task_id": "TASK-001",
+  "title": "Add repository health summary",
+  "goal": "Display the registered repository branch, HEAD, and clean or dirty state without modifying the repository.",
+  "base_sha": "0123456789abcdef0123456789abcdef01234567",
+  "context_paths": [
+    "src/main/git",
+    "src/renderer/src/features/projects"
+  ],
+  "scope": {
+    "allowed_paths": [
+      "src/main/git/**",
+      "src/renderer/src/features/projects/**",
+      "tests/**"
+    ],
+    "forbidden_paths": [
+      ".env",
+      ".github/**",
+      "schemas/**"
+    ]
+  },
+  "acceptance_criteria": [
+    {
+      "id": "AC-01",
+      "text": "The project view displays the current branch and full HEAD SHA."
+    },
+    {
+      "id": "AC-02",
+      "text": "The project view displays whether the repository is clean or dirty."
+    },
+    {
+      "id": "AC-03",
+      "text": "Repository inspection does not modify the target repository."
+    }
+  ],
+  "test_commands": [
+    {
+      "id": "unit",
+      "program": "pnpm",
+      "args": ["exec", "vitest", "run", "tests/integration/git-service.test.ts"],
+      "cwd": ".",
+      "timeout_seconds": 600,
+      "required": true
+    }
+  ],
+  "execution_policy": {
+    "planner_recommendation": "cheap",
+    "planner_confidence": "high",
+    "recommendation_reasons": ["small scoped change"],
+    "user_lock": null
+  },
+  "limits": {
+    "max_attempts": 2,
+    "run_timeout_seconds": 1800,
+    "max_changed_files": 20,
+    "max_diff_bytes": 1048576
+  }
+}

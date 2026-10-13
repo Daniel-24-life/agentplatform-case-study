@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="410" viewBox="0 0 1200 410" role="img" aria-labelledby="title desc">
+  <title id="title">AgentPlatform: intended product path versus the formal pilot</title>
+  <desc id="desc">The intended path was product goal, lead agent planning, multi-agent work, and verified delivery. In the formal pilot the goal was saved, planning was blocked by RUNTIME_NOT_QUALIFIED, and later stages did not run. A separate controlled single-task execution path passed one functional acceptance.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0d1833"/><stop offset="1" stop-color="#1d3156"/></linearGradient>
+    <style>
+      .label{font:700 13px Arial,Helvetica,sans-serif;letter-spacing:2px;fill:#91a9d8}
+      .heading{font:700 28px Arial,Helvetica,sans-serif;fill:#f7faff}
+      .step{font:700 20px Arial,Helvetica,sans-serif;fill:#f7faff}
+      .detail{font:15px Arial,Helvetica,sans-serif;fill:#bfd0ed}
+      .status{font:700 13px Arial,Helvetica,sans-serif;letter-spacing:1px}
+      .foot{font:15px Arial,Helvetica,sans-serif;fill:#d6e1f5}
+    </style>
+  </defs>
+  <rect width="1200" height="410" rx="24" fill="url(#background)"/>
+  <text x="42" y="48" class="label">THE PRODUCT PROMISE / 核心体验</text>
+  <text x="42" y="88" class="heading">From a product goal to verified software</text>
+  <text x="42" y="116" class="detail">The formal desktop-app pilot stopped before any agent was dispatched.</text>
+  <path d="M307 220h29m252 0h29m252 0h29" stroke="#88a8dc" stroke-width="2" stroke-linecap="round"/>
+  <path d="m331 214 7 6-7 6m281-12 7 6-7 6m281-12 7 6-7 6" fill="none" stroke="#88a8dc" stroke-width="2"/>
+  <rect x="42" y="156" width="264" height="145" rx="18" fill="#203c62" stroke="#4f7cc0"/>
+  <rect x="337" y="156" width="251" height="145" rx="18" fill="#3f3048" stroke="#ec8c8b"/>
+  <rect x="619" y="156" width="250" height="145" rx="18" fill="#233452" stroke="#56739e"/>
+  <rect x="900" y="156" width="258" height="145" rx="18" fill="#233452" stroke="#56739e"/>
+  <text x="61" y="191" class="label">01</text><text x="61" y="223" class="step">Product goal</text><text x="61" y="253" class="detail">Saved in the app</text><text x="61" y="280" class="status" fill="#8be0bd">OBSERVED</text>
+  <text x="356" y="191" class="label">02</text><text x="356" y="223" class="step">Lead planning</text><text x="356" y="253" class="detail">Runtime qualification gate</text><text x="356" y="280" class="status" fill="#ffb0a7">BLOCKED</text>
+  <text x="638" y="191" class="label">03</text><text x="638" y="223" class="step">Multi-agent work</text><text x="638" y="253" class="detail">No product tasks created</text><text x="638" y="280" class="status" fill="#a9bbd7">NOT RUN</text>
+  <text x="919" y="191" class="label">04</text><text x="919" y="223" class="step">Verified delivery</text><text x="919" y="253" class="detail">No product delivered</text><text x="919" y="280" class="status" fill="#a9bbd7">NOT RUN</text>
+  <path d="M42 334h1116" stroke="#486283"/>
+  <text x="42" y="364" class="foot">Separate result: one controlled single-task Git + Codex CLI path passed functional acceptance.</text>
+  <text x="42" y="387" class="foot">That result does not establish the product-level experience or broad runtime reliability.</text>
+</svg>

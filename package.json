@@ -1,0 +1,54 @@
+{
+  "name": "agentplatform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local agent platform prototype for Codex task orchestration.",
+  "main": "out/main/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.main.json && tsc -p tsconfig.renderer.json",
+    "lint": "eslint src/**/*.ts src/**/*.tsx tests/**/*.ts",
+    "test": "vitest run",
+    "test:real-ab": "vitest run tests/manual/phase1-real-ab.test.ts",
+    "test:real-runtime": "vitest run tests/manual/phase1-3-runtime-requests.test.ts",
+    "test:phase1-4-runtime": "vitest run tests/manual/phase1-4-runtime-certification.test.ts",
+    "phase1-4:prepare": "vitest run tests/manual/phase1-4-runtime-certification.test.ts -t \"prepares a fresh zero-quota canary directory\"",
+    "phase1-4:execute": "vitest run tests/manual/phase1-4-runtime-certification.test.ts -t \"executes exactly the already-prepared single canary\"",
+    "phase1-4:isolation": "vitest run tests/manual/phase1-4-runtime-isolation.test.ts -t \"runs only from a qualifying immutable canary\"",
+    "phase1-4:certification": "vitest run tests/manual/phase1-4-runtime-isolation.test.ts -t \"certification track remains candidate gated\"",
+    "phase1-5:preflight": "vitest run tests/manual/phase1-5-app-server-preflight.test.ts",
+    "phase1-5:prepare": "vitest run tests/manual/phase1-5-control-plane-qualification.test.ts -t \"prepares a fresh fixture\"",
+    "phase1-5:execute": "vitest run tests/manual/phase1-5-control-plane-qualification.test.ts -t \"executes the preregistered\"",
+    "phase1-6:offline": "vitest run tests/unit/bounded-runtime-certification.test.ts tests/unit/process-runner-hash-only.test.ts tests/unit/phase1-6-runtime-certification-harness.test.ts tests/unit/phase1-6-codex-executor.test.ts tests/unit/phase1-6-preparation.test.ts tests/unit/phase1-6-real-entry.test.ts tests/manual/phase1-6-runtime-certification.test.ts tests/manual/phase1-6-preparation.test.ts tests/manual/phase1-6-real-execution.test.ts",
+    "phase1-6:prepare": "vitest run tests/manual/phase1-6-preparation.test.ts -t \"prepares the immutable ten-case registration\"",
+    "phase1-6:execute": "vitest run tests/manual/phase1-6-real-execution.test.ts -t \"executes only the sealed ten-case registration\"",
+    "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.renderer.json && electron-vite build",
+    "package:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-windows.ps1",
+    "dev": "electron-vite dev"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "electron": "36.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.20.0",
+    "@types/node": "22.13.0",
+    "@types/react": "18.3.10",
+    "@types/react-dom": "18.3.5",
+    "@typescript-eslint/eslint-plugin": "8.18.0",
+    "@typescript-eslint/parser": "8.18.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "electron-vite": "5.0.0",
+    "eslint": "9.20.0",
+    "globals": "15.14.0",
+    "typescript": "5.6.3",
+    "vite": "5.4.9",
+    "vitest": "2.1.4"
+  }
+}

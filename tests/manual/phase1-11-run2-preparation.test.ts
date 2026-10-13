@@ -1,0 +1,15 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+import { createPhase111Preparation } from "./phase1-11-end-to-end.js";
+
+describe.skipIf(process.env.PHASE1_11_PREPARE_RUN2 !== "1")("Phase 1.11 run2 zero-call preparation", () => {
+  it("creates only a fresh sealed disposable run2 task fixture", () => {
+    const sourceRoot = path.resolve(process.env.PHASE1_11_SOURCE_ROOT ?? "");
+    const preparationRoot = path.join(sourceRoot, "phase1-11-evidence", "preparation-run2");
+    expect(existsSync(preparationRoot)).toBe(false);
+    const seal = createPhase111Preparation(sourceRoot, preparationRoot);
+    expect(seal.real_model_calls).toBe(0);
+    expect(seal.execution_authorized).toBe(false);
+  });
+});

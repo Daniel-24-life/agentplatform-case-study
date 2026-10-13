@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Implemented controlled single-task execution path</title>
+  <desc id="desc">A user approves a TaskSpec. The platform creates a managed worktree, runs a Codex worker, starts its own tests, checks a deterministic gate, and performs read-only final review. The result is a branch, diff, and evidence for a human decision, not an automatic merge.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f9fd"/><stop offset="1" stop-color="#eaf1fc"/></linearGradient>
+    <style>
+      .label{font:700 13px Arial,Helvetica,sans-serif;letter-spacing:2px;fill:#526b92}
+      .heading{font:700 28px Arial,Helvetica,sans-serif;fill:#142b4f}
+      .step{font:700 18px Arial,Helvetica,sans-serif;fill:#153257}
+      .detail{font:14px Arial,Helvetica,sans-serif;fill:#49617f}
+      .note{font:15px Arial,Helvetica,sans-serif;fill:#25466f}
+    </style>
+  </defs>
+  <rect width="1200" height="520" rx="24" fill="url(#background)"/>
+  <text x="42" y="48" class="label">IMPLEMENTED KERNEL / 已实现的单 TASK 执行链</text>
+  <text x="42" y="89" class="heading">The platform owns the evidence</text>
+  <text x="42" y="119" class="detail">A controlled task passed functional acceptance; broader runtime reliability remained partial.</text>
+  <path d="M255 218h38m273 0h38m273 0h38" stroke="#6485b8" stroke-width="3" stroke-linecap="round"/>
+  <path d="m285 211 9 7-9 7m310-14 9 7-9 7m310-14 9 7-9 7" fill="none" stroke="#6485b8" stroke-width="3"/>
+  <rect x="42" y="162" width="213" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <rect x="294" y="162" width="272" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <rect x="605" y="162" width="272" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <rect x="916" y="162" width="242" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <text x="60" y="193" class="label">HUMAN</text><text x="60" y="222" class="step">Approve TaskSpec</text><text x="60" y="249" class="detail">scope + test commands</text>
+  <text x="312" y="193" class="label">PLATFORM</text><text x="312" y="222" class="step">Managed worktree</text><text x="312" y="249" class="detail">unique branch, checked base</text>
+  <text x="623" y="193" class="label">AGENT</text><text x="623" y="222" class="step">Codex Worker</text><text x="623" y="249" class="detail">workspace-write sandbox</text>
+  <text x="934" y="193" class="label">PLATFORM</text><text x="934" y="222" class="step">Run approved tests</text><text x="934" y="249" class="detail">TestRun is authoritative</text>
+  <path d="M1037 274v38H720v25" fill="none" stroke="#6485b8" stroke-width="3"/>
+  <path d="m713 327 7 9 7-9" fill="none" stroke="#6485b8" stroke-width="3"/>
+  <path d="M605 394h-39m-272 0h-39" stroke="#6485b8" stroke-width="3" stroke-linecap="round"/>
+  <path d="m575 387-9 7 9 7m-311-14-9 7 9 7" fill="none" stroke="#6485b8" stroke-width="3"/>
+  <rect x="605" y="337" width="272" height="112" rx="16" fill="#dceef0" stroke="#66a8ae"/>
+  <rect x="294" y="337" width="272" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <rect x="42" y="337" width="213" height="112" rx="16" fill="#fff" stroke="#91a9cc"/>
+  <text x="623" y="368" class="label">PLATFORM</text><text x="623" y="397" class="step">Deterministic gate</text><text x="623" y="424" class="detail">diff, scope, tests, hashes</text>
+  <text x="312" y="368" class="label">READ ONLY AGENT</text><text x="312" y="397" class="step">Final review</text><text x="312" y="424" class="detail">cannot override a failed gate</text>
+  <text x="60" y="368" class="label">HUMAN DECISION</text><text x="60" y="397" class="step">Inspect result</text><text x="60" y="424" class="detail">branch + diff + evidence</text>
+  <text x="42" y="489" class="note">No automatic commit, push or merge. A worker's claim that tests passed is not test evidence.</text>
+</svg>

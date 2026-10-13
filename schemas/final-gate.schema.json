@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/schemas/final-gate.schema.json",
+  "title": "AgentPlatform FinalGateResult",
+  "schema_version": "1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "verdict",
+    "summary",
+    "criteria",
+    "findings",
+    "test_assessment",
+    "scope_assessment",
+    "rework_instructions"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "task_id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,63}$" },
+    "verdict": { "type": "string", "enum": ["PASS", "REWORK", "BLOCKED"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "criteria": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["criterion_id", "status", "evidence"],
+        "properties": {
+          "criterion_id": { "type": "string", "pattern": "^AC-[0-9]{2,3}$" },
+          "status": { "type": "string", "enum": ["satisfied", "unsatisfied", "uncertain"] },
+          "evidence": { "type": "string", "minLength": 1, "maxLength": 2000 }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "file", "line", "message"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "file": { "type": ["string", "null"], "maxLength": 500 },
+          "line": { "type": ["integer", "null"], "minimum": 1 },
+          "message": { "type": "string", "minLength": 1, "maxLength": 2000 }
+        }
+      }
+    },
+    "test_assessment": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "scope_assessment": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "rework_instructions": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1000 }
+    }
+  }
+}

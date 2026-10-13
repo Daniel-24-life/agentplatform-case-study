@@ -1,0 +1,3 @@
+import { createHash } from "node:crypto";import { mkdirSync,writeFileSync } from "node:fs";import path from "node:path";
+export type EvidenceEntry={kind:string;path:string;sizeBytes:number;sha256:string};
+export const writeEvidence=(root:string,kind:string,fileName:string,content:string|Buffer):EvidenceEntry=>{mkdirSync(root,{recursive:true});const target=path.resolve(root,fileName);const relative=path.relative(root,target);if(relative.startsWith("..")||path.isAbsolute(relative))throw new Error("Artifact path escapes root");const data=Buffer.isBuffer(content)?content:Buffer.from(content);writeFileSync(target,data);return{kind,path:relative.replace(/\\/g,"/"),sizeBytes:data.length,sha256:createHash("sha256").update(data).digest("hex")};};

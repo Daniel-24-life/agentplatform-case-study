@@ -1,0 +1,363 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/product-run.schema.json",
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "taskId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "specRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "specHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "RUNNING",
+            "PAUSE_REQUESTED",
+            "CANCEL_REQUESTED",
+            "PAUSED",
+            "CANCELLED",
+            "SUCCEEDED",
+            "FAILED",
+            "INTERRUPTED"
+          ]
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "build",
+                "tests",
+                "review"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reservedModelCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "maxModelCalls": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 6
+        },
+        "errorCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usedModelCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "planRevision",
+        "taskId",
+        "specRevision",
+        "specHash",
+        "status",
+        "stage",
+        "reservedModelCalls",
+        "maxModelCalls",
+        "errorCode",
+        "createdAt",
+        "finishedAt"
+      ]
+    },
+    "getState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId"
+      ]
+    },
+    "start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "taskId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "specRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "specHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "planRevision",
+        "taskId",
+        "specRevision",
+        "specHash"
+      ]
+    },
+    "cancel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "actionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId",
+        "actionId"
+      ]
+    },
+    "pause": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "actionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId",
+        "actionId"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_INPUT",
+                "INVALID_RESPONSE",
+                "NOT_FOUND",
+                "REQUEST_ID_CONFLICT",
+                "PLAN_STALE",
+                "SPEC_NOT_APPROVED",
+                "SPEC_CHANGED",
+                "TASK_NOT_READY",
+                "TASK_BUSY",
+                "RUNTIME_UNAVAILABLE",
+                "INTERNAL_ERROR",
+                "BUDGET_EXHAUSTED"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ]
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    },
+    "getStateResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/action"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "startResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/action"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "pauseResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/action"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "cancelResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/action"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    }
+  }
+}

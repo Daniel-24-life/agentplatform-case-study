@@ -1,0 +1,6 @@
+.product-execution-panel { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; }
+.product-execution-bind { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin: 16px 0; }
+.product-execution-bind label { min-width: min(520px, 100%); margin: 0; }
+.product-execution-bind select { width: 100%; }
+.product-execution-summary { padding: 16px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); background: var(--ui-color-surface-muted); }
+.product-execution-panel > .ui-button { margin: 8px 8px 0 0; }

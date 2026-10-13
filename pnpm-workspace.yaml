@@ -1,0 +1,4 @@
+allowBuilds:
+  electron: true
+  esbuild: false
+  sqlite3: false

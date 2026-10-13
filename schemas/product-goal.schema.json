@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/schemas/product-goal/1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "originalRequest": {
+      "type": "string",
+      "maxLength": 65536,
+      "minLength": 1
+    },
+    "goal": {
+      "type": "string",
+      "maxLength": 65536
+    },
+    "scope": {
+      "type": "string",
+      "maxLength": 65536
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "maxItems": 100
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "verification": {
+            "enum": [
+              "platform",
+              "review",
+              "user"
+            ],
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "verification",
+          "required"
+        ]
+      },
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "originalRequest",
+    "goal",
+    "scope",
+    "assumptions",
+    "acceptanceCriteria"
+  ]
+}

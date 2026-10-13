@@ -1,0 +1,63 @@
+import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { expect, it } from 'vitest';
+import { createProductWorkflowFixture, waitForProductRun } from '../helpers/product-workflow.js';
+import { ProductDeliveryService } from '../../src/main/products/product-delivery-service.js';
+import { AppDatabase } from '../../src/main/db/database.js';
+
+it('records immutable product acceptance from real Git and platform evidence, rejects drift and starts a new iteration', async () => {
+ const root = mkdtempSync(path.join(os.tmpdir(),'agentplatform-delivery-'));
+ const f = await createProductWorkflowFixture(root);
+ const service = new ProductDeliveryService(f.database,f.products,f.plans,f.execution,f.orchestrator,f.git,f.artifacts);
+ try {
+  expect(await service.getState({productId:f.input.productId})).toMatchObject({latest:null,current:false});
+  const input={requestId:'delivery',productId:f.input.productId,planRevision:1,taskId:f.link.taskId,attemptId:'not-ready',reviews:[{criterionId:'value-updated',accepted:true,taskCriterionIds:['AC-01'],note:'Observed updated value; platform TestRun verifies file content.'}],runInstructions:'Read value.txt in the preserved worktree. No application preview performed.',limitations:'Controlled local fixture; not published.'};
+  await expect(service.create(input)).rejects.toMatchObject({code:'TASK_NOT_PASSED'});
+  await f.runs.start(f.input);expect(await waitForProductRun(f)).toMatchObject({status:'SUCCEEDED'});
+  const detail=f.orchestrator.detail(f.link.taskId);input.attemptId=detail.attempt!.id;
+  await expect(service.create({...input,reviews:[]})).rejects.toMatchObject({code:'INVALID_INPUT'});
+  await expect(service.create({...input,reviews:[{...input.reviews[0],taskCriterionIds:['AC-02']}]})).rejects.toMatchObject({code:'REVIEW_INCOMPLETE'});
+  const pending=await service.create({...input,requestId:'pending',reviews:[{...input.reviews[0],accepted:false,taskCriterionIds:[]}]});
+  expect(pending.status).toBe('REVIEW_REQUIRED');expect(pending.previewStatus).toBe('NOT_RUN');
+  const [delivery,retry]=await Promise.all([service.create(input),service.create(input)]);
+  expect(retry.id).toBe(delivery.id);expect(delivery.status).toBe('ACCEPTED_UNPUBLISHED');expect(delivery.publicationStatus).toBe('NOT_RUN');
+  expect(delivery.evidence.testRunIds).toEqual(detail.snapshot!.tests!.map(t=>t.runId));
+  expect(await service.getState({productId:input.productId})).toMatchObject({current:true,latest:{id:delivery.id}});
+  await expect(service.create({...input,limitations:'Changed'})).rejects.toMatchObject({code:'REQUEST_ID_CONFLICT'});
+  const file=path.join(detail.attempt!.worktreePath,'value.txt'), original=readFileSync(file);
+  writeFileSync(file,'Drift after passed test');
+  expect(await service.getState({productId:input.productId})).toMatchObject({current:false});
+  await expect(service.create({...input,requestId:'drift'})).rejects.toMatchObject({code:'EVIDENCE_CHANGED'});writeFileSync(file,original);
+  const finalPath=path.join(f.artifacts,'attempts',input.attemptId,'final-gate.json'), finalOriginal=readFileSync(finalPath);
+  writeFileSync(finalPath,'{}');await expect(service.create({...input,requestId:'artifact-drift'})).rejects.toMatchObject({code:'EVIDENCE_CHANGED'});writeFileSync(finalPath,finalOriginal);
+  const independent=new AppDatabase(path.join(root,'app.db'));
+  try { const row=independent.db.prepare('SELECT payload_json,sha256 FROM product_deliveries WHERE id=?').get(delivery.id) as {payload_json:string;sha256:string};
+   independent.db.prepare('UPDATE product_deliveries SET sha256=? WHERE id=?').run('0'.repeat(64),delivery.id);
+   await expect(service.getState({productId:input.productId})).rejects.toMatchObject({code:'DATA_CORRUPT'});
+   independent.db.prepare('UPDATE product_deliveries SET sha256=? WHERE id=?').run(row.sha256,delivery.id);
+   const reopened=new ProductDeliveryService(independent,f.products,f.plans,f.execution,f.orchestrator,f.git,f.artifacts);
+   expect(await reopened.create(input)).toEqual(delivery);
+  } finally {independent.close();}
+  const beforeCount=f.database.db.prepare('SELECT COUNT(*) n FROM product_deliveries').get() as {n:number};
+  f.database.db.exec("CREATE TRIGGER reject_delivery_receipt BEFORE INSERT ON product_delivery_receipts BEGIN SELECT RAISE(ABORT,'fixture receipt failure'); END");
+  await expect(service.create({...input,requestId:'atomic-failure'})).rejects.toThrow('fixture receipt failure');
+  expect((f.database.db.prepare('SELECT COUNT(*) n FROM product_deliveries').get() as {n:number}).n).toBe(beforeCount.n);
+  f.database.db.exec('DROP TRIGGER reject_delivery_receipt');
+  let changed=false;
+  const racingGit={getManagedRoot:()=>f.git.getManagedRoot(),collectEvidence:async (worktree:string)=>{const evidence=await f.git.collectEvidence(worktree);if(!changed){changed=true;const current=await f.products.getOverview({productId:input.productId});await f.products.reviseGoal({requestId:'await-feedback',productId:input.productId,expectedRevision:current.product.revision,goal:{...current.goal.goal,scope:'Feedback during evidence collection'}});}return evidence;}};
+  const racing=new ProductDeliveryService(f.database,f.products,f.plans,f.execution,f.orchestrator,racingGit,f.artifacts);
+  await expect(racing.create({...input,requestId:'await-change'})).rejects.toMatchObject({code:'PLAN_STALE'});
+  const overview=await f.products.getOverview({productId:input.productId});
+  const revised=await f.products.reviseGoal({requestId:'feedback',productId:input.productId,expectedRevision:overview.product.revision,goal:{...overview.goal.goal,scope:'Next increment from feedback'}});
+  expect(await service.getState({productId:input.productId})).toMatchObject({current:false,latest:{id:delivery.id}});
+  await expect(service.create({...input,requestId:'stale'})).rejects.toMatchObject({code:'PLAN_STALE'});
+  await f.products.confirmDirection({requestId:'next-direction',productId:input.productId,expectedRevision:revised.product.revision,goalRevision:revised.goal.revision});
+  const prior=(await f.plans.getState({productId:input.productId})).saved!;
+  const next=await f.plans.save({requestId:'next-plan',productId:input.productId,expectedPlanRevision:prior.revision,plan:{...prior.plan,goalRevision:revised.goal.revision,goalHash:revised.goal.hash}});
+  await f.plans.confirm({requestId:'next-confirm',productId:input.productId,planRevision:next.revision});
+  const nextLink=await f.execution.createTask({requestId:'next-task',productId:input.productId,planRevision:next.revision});
+  expect(nextLink.taskId).not.toBe(input.taskId);expect(f.database.getTask(nextLink.taskId)?.status).toBe('DRAFT');
+  expect((await f.git.inspect(f.repo)).clean).toBe(true);
+ } finally {f.database.close();rmSync(root,{recursive:true,force:true});}
+},30000);

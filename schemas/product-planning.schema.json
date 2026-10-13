@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/schemas/product-planning/1.0",
+  "$defs": {
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "workspaceRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "goalRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "goalHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "goal": {
+          "$ref": "https://agentplatform.local/schemas/product-goal/1.0"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "direction",
+            "plan"
+          ]
+        }
+      },
+      "required": [
+        "productId",
+        "workspaceRevision",
+        "goalRevision",
+        "goalHash",
+        "goal"
+      ]
+    },
+    "grant": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "goalRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "goalHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "maxCalls": {
+          "const": 1
+        },
+        "usedCalls": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "timeoutSeconds": {
+          "const": 300
+        },
+        "revokedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "goalRevision",
+        "goalHash",
+        "maxCalls",
+        "usedCalls",
+        "timeoutSeconds",
+        "revokedAt",
+        "createdAt"
+      ]
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "grantId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "goalRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "goalHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "contextHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": {
+          "enum": [
+            "RUNNING",
+            "SUCCEEDED",
+            "FAILED",
+            "INTERRUPTED"
+          ]
+        },
+        "proposal": {
+          "anyOf": [
+            {
+              "$ref": "https://agentplatform.local/schemas/product-proposal/1.0"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "errorCode": {
+          "anyOf": [
+            {
+              "enum": [
+                "INVALID_INPUT",
+                "INPUT_TOO_LARGE",
+                "INVALID_RESPONSE",
+                "NOT_FOUND",
+                "REVISION_CONFLICT",
+                "REQUEST_ID_CONFLICT",
+                "PERMISSION_REQUIRED",
+                "GRANT_REVOKED",
+                "BUDGET_EXHAUSTED",
+                "RUNTIME_NOT_QUALIFIED",
+                "INVALID_PROPOSAL",
+                "GOAL_STALE",
+                "INTERRUPTED",
+                "INTERNAL_ERROR",
+                "QUOTA_EXHAUSTED"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "grantId",
+        "goalRevision",
+        "goalHash",
+        "contextHash",
+        "status",
+        "proposal",
+        "errorCode",
+        "createdAt",
+        "finishedAt"
+      ]
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "grant": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/grant"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/action"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planAvailable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "available",
+        "grant",
+        "action"
+      ]
+    },
+    "authorize": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "expectedRevision"
+      ]
+    },
+    "revoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "grantId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId",
+        "grantId"
+      ]
+    },
+    "requestProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "grantId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "direction",
+            "plan"
+          ]
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "grantId",
+        "expectedRevision"
+      ]
+    },
+    "getState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "INVALID_INPUT",
+            "INPUT_TOO_LARGE",
+            "INVALID_RESPONSE",
+            "NOT_FOUND",
+            "REVISION_CONFLICT",
+            "REQUEST_ID_CONFLICT",
+            "PERMISSION_REQUIRED",
+            "GRANT_REVOKED",
+            "BUDGET_EXHAUSTED",
+            "RUNTIME_NOT_QUALIFIED",
+            "INVALID_PROPOSAL",
+            "GOAL_STALE",
+            "INTERRUPTED",
+            "INTERNAL_ERROR",
+            "QUOTA_EXHAUSTED"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "authorizeResponse": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/grant"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "#/$defs/error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ]
+        }
+      ]
+    },
+    "revokeResponse": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/grant"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "#/$defs/error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ]
+        }
+      ]
+    },
+    "requestProposalResponse": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/action"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "#/$defs/error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ]
+        }
+      ]
+    },
+    "getStateResponse": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/state"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "#/$defs/error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ]
+        }
+      ]
+    }
+  }
+}

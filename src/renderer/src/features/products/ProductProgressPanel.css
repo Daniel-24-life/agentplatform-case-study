@@ -1,0 +1,9 @@
+.product-progress-panel { margin-bottom: 28px; padding: 18px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); background: var(--ui-color-surface-muted); }
+.product-progress-heading { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+.product-progress-heading h3 { margin:0 0 6px; }
+.product-progress-description { margin:0; color:var(--ui-color-text-muted); }
+.product-progress-milestones { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 0; padding:0; list-style:none; }
+.product-progress-milestones li { padding:5px 9px; border-radius:999px; background:var(--ui-color-border); font-size:12px; }
+.product-progress-milestones li[data-complete=true] { background:color-mix(in srgb, var(--ui-color-success, #16803c) 15%, transparent); }
+.product-progress-error { margin:12px 0 0; color:var(--ui-color-danger, #b42318); }
+@media (max-width:650px) { .product-progress-heading { flex-direction:column; } }

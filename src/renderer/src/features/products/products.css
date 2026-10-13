@@ -1,0 +1,94 @@
+.product-panel {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: var(--ui-space-6);
+  align-items: start;
+}
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-4);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-color-surface);
+}
+.product-list-heading { padding: var(--ui-space-2); }
+.product-list-heading h2 { margin: 4px 0 0; }
+.product-list-switcher { margin: 4px 0 8px; }
+.product-list-item.ui-button {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.product-list-item span { font-size: 12px; color: var(--ui-color-text-muted); }
+.product-list-item[aria-current="page"] {
+  border-color: var(--ui-color-primary);
+  background: color-mix(in srgb, var(--ui-color-primary) 8%, var(--ui-color-surface));
+}
+.product-editor {
+  min-width: 0;
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-color-surface);
+  box-shadow: 0 12px 35px rgb(15 23 42 / 5%);
+}
+.product-editor-heading { margin-bottom: var(--ui-space-6); }
+.product-editor-heading h2 { margin: 8px 0; font-size: 22px; overflow-wrap: anywhere; }
+.product-editor-heading p, .product-help { color: var(--ui-color-text-muted); }
+.product-editor-heading p { margin-bottom: 0; }
+.product-help { margin: 14px 0 0; font-size: 13px; }
+.product-editor label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; font-weight: 600; }
+.product-editor textarea { min-height: 90px; resize: vertical; font-weight: 400; }
+.product-editor .product-idea { min-height: 160px; }
+.product-goal-form { border: 0; padding: 0; margin: 0; min-width: 0; }
+.product-goal-form textarea[readonly] { background: var(--ui-color-surface-muted); }
+.product-goal-form fieldset { margin: 20px 0; padding: 16px; min-width: 0; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); }
+.product-goal-form legend { font-weight: 650; padding: 0 6px; }
+.product-item, .product-criterion, .product-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.product-item input, .product-criterion > input { flex: 1; min-width: min(180px, 100%); }
+.product-criterion select { width: auto; max-width: 100%; }
+.product-editor .product-required { flex-direction: row; align-items: center; margin: 0; white-space: nowrap; }
+.product-required input { width: auto; }
+.product-history { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; }
+.product-history-preview { margin-top: 16px; padding: 16px; border-radius: var(--ui-radius-md); background: var(--ui-color-surface-muted); }
+.product-history-preview h4 { margin: 0; }
+.product-history-preview dl { margin-bottom: 0; }
+.product-history-preview dt { font-size: 12px; color: var(--ui-color-text-muted); margin-top: 12px; }
+.product-history-preview dd { margin: 4px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.product-history-preview ul { margin: 0; }
+.product-history-preview small { display: block; color: var(--ui-color-text-muted); }
+.product-danger-zone { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; }
+@media (max-width: 850px) {
+  .product-panel { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .product-editor .section-heading { flex-wrap: wrap; }
+}
+.product-planning { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; }
+.product-planning > .product-actions { margin-top: 16px; }
+.planning-option { margin-top: 16px; padding: 16px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); }
+.planning-option h4 { margin: 0; }
+.planning-option dd { margin-left: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.planning-option dt { margin-top: 8px; color: var(--ui-color-text-muted); }
+
+.planning-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  border: 0;
+  padding: 8px 0;
+}
+.planning-mode label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.planning-mode input[type="radio"] {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}

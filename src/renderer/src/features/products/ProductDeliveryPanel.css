@@ -1,0 +1,10 @@
+.product-delivery-panel { display: grid; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--border-subtle, #d9dee7); }
+.product-delivery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1rem; }
+.product-delivery-panel fieldset { display: grid; gap: .55rem; border: 1px solid var(--border-subtle, #d9dee7); border-radius: 8px; padding: .75rem; }
+.product-delivery-panel label { display: grid; gap: .3rem; }
+.product-delivery-check { display: grid; grid-template-columns: auto 1fr; gap: .5rem; align-items: start; }
+.product-delivery-check small { display: block; color: var(--text-muted, #667085); }
+.product-delivery-evidence { display: grid; gap: .35rem; margin: 0; }
+.product-delivery-evidence dt { color: var(--text-muted, #667085); font-size: .8rem; }
+.product-delivery-evidence dd { margin: 0 0 .35rem; overflow-wrap: anywhere; }
+@media (max-width: 720px) { .product-delivery-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,427 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/product-delivery.schema.json",
+  "$defs": {
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "goalRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "goalHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "planHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "criteria": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/criterion"
+          }
+        },
+        "reviews": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/review"
+          }
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "runInstructions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "limitations": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "REVIEW_REQUIRED",
+            "ACCEPTED_UNPUBLISHED"
+          ]
+        },
+        "previewStatus": {
+          "type": "string",
+          "const": "NOT_RUN"
+        },
+        "publicationStatus": {
+          "type": "string",
+          "const": "NOT_RUN"
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "goalRevision",
+        "goalHash",
+        "planRevision",
+        "planHash",
+        "criteria",
+        "reviews",
+        "evidence",
+        "runInstructions",
+        "limitations",
+        "status",
+        "previewStatus",
+        "publicationStatus",
+        "createdAt"
+      ]
+    },
+    "getState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId"
+      ]
+    },
+    "create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "taskId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "attemptId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "reviews": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/review"
+          }
+        },
+        "runInstructions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        },
+        "limitations": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8000
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "planRevision",
+        "taskId",
+        "attemptId",
+        "reviews",
+        "runInstructions",
+        "limitations"
+      ]
+    },
+    "getStateResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                },
+                "latest": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/delivery"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "current": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "productId",
+                "latest",
+                "current"
+              ]
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "createResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/delivery"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "verification": {
+          "enum": [
+            "platform",
+            "review",
+            "user"
+          ],
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "verification",
+        "required"
+      ]
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "criterionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "taskCriterionIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "criterionId",
+        "accepted",
+        "taskCriterionIds",
+        "note"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "specRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "specHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "attemptId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "worktreePath": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40,64}$"
+        },
+        "diffHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifestHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "finalGateHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "testRunIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "taskId",
+        "specRevision",
+        "specHash",
+        "attemptId",
+        "branch",
+        "worktreePath",
+        "head",
+        "diffHash",
+        "manifestHash",
+        "finalGateHash",
+        "testRunIds"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_INPUT",
+                "INPUT_TOO_LARGE",
+                "INVALID_RESPONSE",
+                "NOT_FOUND",
+                "REQUEST_ID_CONFLICT",
+                "PLAN_STALE",
+                "TASK_NOT_PASSED",
+                "EVIDENCE_CHANGED",
+                "DATA_CORRUPT",
+                "REVIEW_INCOMPLETE",
+                "INTERNAL_ERROR"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ]
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    }
+  }
+}

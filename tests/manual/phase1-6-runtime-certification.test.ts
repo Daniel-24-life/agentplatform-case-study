@@ -1,0 +1,11 @@
+import { mkdtempSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+import { buildPreregistration, createDisposableGitFixture, PHASE1_6_CASES, PHASE1_6_CASE_IDS, REGISTRATION, runHarness, runRegisteredCases, validatePreregistration } from "./phase1-6-runtime-certification.js";
+describe("Phase 1.6 certification",()=> {
+ it("defines ten distinct cases and fixed registration",()=>{expect(PHASE1_6_CASE_IDS).toHaveLength(10);expect(new Set(PHASE1_6_CASES.map(x=>x.focus)).size).toBe(10);expect(REGISTRATION).toMatchObject({model:"gpt-5.6-sol",reasoning:"medium",timeout:300000,cleanup:10000,retry:0,intervention:0});});
+ it("builds deterministic per-case fixtures and preregistration",()=>{const root=mkdtempSync(join(tmpdir(),"p16-"));const fs=PHASE1_6_CASES.map(x=>createDisposableGitFixture(join(root,x.id),x));const p=buildPreregistration(fs,"schemas");validatePreregistration(p);expect(p.cases).toHaveLength(10);expect(new Set(p.cases.map(x=>x.baseSha)).size).toBe(10);});
+ it("stops at first fatal case and leaves later results absent",async()=>{const root=mkdtempSync(join(tmpdir(),"p16-stop-"));const fs=PHASE1_6_CASES.map(x=>createDisposableGitFixture(join(root,x.id),x));const p=buildPreregistration(fs,"schemas");const out=join(root,"out");const result=await runRegisteredCases(p,out,async item=>({id:item.id,order:PHASE1_6_CASE_IDS.indexOf(item.id)+1,durationMs:item.id==="P16-ARCH-03"?null:1,cleanupDurationMs:1,authoritativeTerminal:true,accountAvailable:true,protocolValid:true,transportClean:item.id!=="P16-ARCH-03",schemaValid:true,semanticValid:true,fixtureClean:true,baseShaValid:true,processConverged:true,stdioConverged:true,hashesValid:true,retryCount:0,humanIntervention:false}));expect(result.calls).toBe(3);expect(result.results["P16-ARCH-04"]).toBeUndefined();expect(readFileSync(join(out,"P16-ARCH-03","sample.json"),"utf8")).toContain("P16-ARCH-03");expect(readFileSync(join(out,"decision.json"),"utf8")).toContain("FAIL");});
+ it("default harness always has zero calls",()=>{const r=runHarness({outputRoot:"unused",schemaDir:"schemas",fixtureRoot:"unused"});expect(r).toMatchObject({optedIn:false,calls:0});});
+});

@@ -1,0 +1,23 @@
+.product-plan-panel {
+  display: grid;
+  gap: var(--ui-space-3);
+  margin-top: 28px;
+  border-top: 1px solid var(--ui-color-border);
+  padding-top: 20px;
+  min-width: 0;
+}
+.product-plan-panel input, .product-plan-panel textarea { width: 100%; box-sizing: border-box; }
+.product-plan-panel textarea { resize: vertical; }
+.product-plan-actions { display: flex; flex-wrap: wrap; gap: var(--ui-space-2); }
+.product-plan-item {
+  display: grid;
+  gap: var(--ui-space-3);
+  padding: var(--ui-space-4);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-md);
+  min-width: 0;
+}
+.product-plan-panel fieldset { display: grid; gap: 8px; min-width: 0; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); }
+.product-editor .product-plan-check { flex-direction: row; gap: 8px; align-items: flex-start; font-weight: 400; margin-bottom: 0; overflow-wrap: anywhere; }
+.product-plan-check input { width: auto; flex-shrink: 0; }
+.product-plan-preview { padding: 12px; border-radius: var(--ui-radius-md); background: var(--ui-color-surface-muted); overflow-wrap: anywhere; }

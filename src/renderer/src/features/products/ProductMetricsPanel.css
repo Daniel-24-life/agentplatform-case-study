@@ -1,0 +1,13 @@
+.product-metrics-panel { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; display: grid; gap: 12px; }
+.product-metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.product-metrics-grid > div { padding: 12px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); min-width: 0; }
+.product-metrics-grid span, .product-metrics-grid small { display: block; color: var(--ui-color-text-muted); }
+.product-metrics-grid strong { display: block; margin: 6px 0; font-size: 20px; overflow-wrap: anywhere; }
+.product-metrics-confirmations, .product-metrics-usage { padding-top: 8px; }
+.product-metrics-confirmations h4, .product-metrics-usage h4 { margin-bottom: 4px; }
+.product-metrics-confirmations p, .product-metrics-usage p { color: var(--ui-color-text-muted); margin: 0; }
+.product-metrics-confirmations ul { display: flex; flex-wrap: wrap; gap: 16px; padding-left: 20px; }
+.product-metrics-usage dl { display: flex; gap: 20px; flex-wrap: wrap; }
+.product-metrics-usage dt { color: var(--ui-color-text-muted); }
+.product-metrics-usage dd { margin: 0; font-weight: 600; }
+@media (max-width: 850px) { .product-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

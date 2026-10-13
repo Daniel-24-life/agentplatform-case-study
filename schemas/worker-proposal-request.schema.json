@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/schemas/worker-proposal-request.schema.json",
+  "title": "AgentPlatform WorkerProposalRequest",
+  "schema_version": "1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "base_sha",
+    "task_spec_sha256",
+    "goal",
+    "scope",
+    "acceptance_criteria",
+    "context_files",
+    "limits"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,63}$"
+    },
+    "base_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"
+    },
+    "task_spec_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "goal": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "scope": { "$ref": "#/$defs/scope" },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "items": { "$ref": "#/$defs/acceptanceCriterion" }
+    },
+    "context_files": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/contextFile" }
+    },
+    "limits": { "$ref": "#/$defs/limits" }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "pathPattern": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_paths", "forbidden_paths"],
+      "properties": {
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/pathPattern" }
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/pathPattern" }
+        }
+      }
+    },
+    "acceptanceCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AC-[0-9]{2,3}$" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      }
+    },
+    "contextFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "byte_count", "sha256", "content"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath" },
+        "byte_count": { "type": "integer", "minimum": 0, "maximum": 65536 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "content": { "type": "string", "maxLength": 262144 }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_operations", "max_file_bytes", "max_total_bytes"],
+      "properties": {
+        "max_operations": { "type": "integer", "minimum": 1, "maximum": 200 },
+        "max_file_bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "max_total_bytes": { "type": "integer", "minimum": 1, "maximum": 10485760 }
+      }
+    }
+  }
+}

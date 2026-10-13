@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/product-execution.schema.json",
+  "$defs": {
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "taskId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "createdAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "productId",
+        "planRevision",
+        "taskId",
+        "createdAt"
+      ]
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "repositoryId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planRevision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planCurrent": {
+          "type": "boolean"
+        },
+        "planConfirmed": {
+          "type": "boolean"
+        },
+        "link": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/link"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "taskStatus": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "DRAFT",
+                "DESIGNING",
+                "SPEC_READY",
+                "SPEC_INVALID",
+                "SPEC_APPROVED",
+                "PREPARING_WORKTREE",
+                "BUILDING",
+                "BUILT",
+                "TESTING",
+                "DETERMINISTIC_GATE",
+                "GATE_READY",
+                "REVIEWING",
+                "PASSED",
+                "REWORK",
+                "FAILED",
+                "BLOCKED",
+                "CANCELLED",
+                "INTERRUPTED"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "productId",
+        "repositoryId",
+        "planRevision",
+        "planCurrent",
+        "planConfirmed",
+        "link",
+        "taskStatus"
+      ]
+    },
+    "getState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "productId"
+      ]
+    },
+    "bindRepository": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "repositoryId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "expectedRevision",
+        "repositoryId"
+      ]
+    },
+    "createTask": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "productId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,100}$"
+        },
+        "planRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "requestId",
+        "productId",
+        "planRevision"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "type": "boolean",
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_INPUT",
+                "INVALID_RESPONSE",
+                "NOT_FOUND",
+                "REVISION_CONFLICT",
+                "REQUEST_ID_CONFLICT",
+                "PLAN_STALE",
+                "PLAN_NOT_CONFIRMED",
+                "REPOSITORY_REQUIRED",
+                "REPOSITORY_DIRTY",
+                "REPOSITORY_LOCKED",
+                "INTERNAL_ERROR"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ]
+        }
+      },
+      "required": [
+        "ok",
+        "error"
+      ]
+    },
+    "getStateResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/state"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "bindRepositoryResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/state"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    },
+    "createTaskResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ok": {
+              "type": "boolean",
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/link"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ]
+        },
+        {
+          "$ref": "#/$defs/error"
+        }
+      ]
+    }
+  }
+}

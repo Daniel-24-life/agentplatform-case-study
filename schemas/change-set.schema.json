@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplatform.local/schemas/change-set.schema.json",
+  "title": "AgentPlatform ChangeSet",
+  "schema_version": "1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "base_sha",
+    "task_spec_sha256",
+    "status",
+    "summary",
+    "operations",
+    "acceptance_notes",
+    "risks",
+    "blocker"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,63}$"
+    },
+    "base_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"
+    },
+    "task_spec_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": { "type": "string", "enum": ["completed", "blocked", "failed"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "operations": {
+      "type": "array",
+      "maxItems": 200,
+      "items": { "$ref": "#/$defs/operation" }
+    },
+    "acceptance_notes": {
+      "type": "array",
+      "maxItems": 30,
+      "items": { "$ref": "#/$defs/acceptanceNote" }
+    },
+    "risks": {
+      "type": "array",
+      "maxItems": 20,
+      "items": { "type": "string", "minLength": 1, "maxLength": 1000 }
+    },
+    "blocker": { "type": ["string", "null"], "maxLength": 2000 }
+  },
+  "$defs": {
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "path", "expected_sha256", "content"],
+      "properties": {
+        "type": { "type": "string", "enum": ["create_file", "replace_file"] },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "expected_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "content": { "type": "string", "maxLength": 4194304 }
+      }
+    },
+    "acceptanceNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "note"],
+      "properties": {
+        "criterion_id": { "type": "string", "pattern": "^AC-[0-9]{2,3}$" },
+        "note": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      }
+    }
+  }
+}
