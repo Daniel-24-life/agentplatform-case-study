@@ -1,4 +1,11 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/cover-dark.svg" />
+  <img src="docs/assets/cover-light.svg" alt="AgentPlatform · discontinued engineering case study" width="1280" />
+</picture>
+
 # AgentPlatform
+
+[完整作品目录](https://github.com/Daniel-24-life/AIfile)
 
 [English overview](README.en.md)
 

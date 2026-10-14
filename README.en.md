@@ -1,4 +1,11 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/cover-dark.svg" />
+  <img src="docs/assets/cover-light.svg" alt="AgentPlatform · discontinued engineering case study" width="1280" />
+</picture>
+
 # AgentPlatform
+
+[Portfolio](https://github.com/Daniel-24-life/AIfile)
 
 **Discontinued · engineering and product case study · 2026-10-13**
 
