@@ -13,6 +13,7 @@
     "typecheck": "tsc -p tsconfig.main.json && tsc -p tsconfig.renderer.json",
     "lint": "eslint src/**/*.ts src/**/*.tsx tests/**/*.ts",
     "test": "vitest run",
+    "test:case-study": "vitest run tests/unit/case-study-static.test.ts",
     "test:real-ab": "vitest run tests/manual/phase1-real-ab.test.ts",
     "test:real-runtime": "vitest run tests/manual/phase1-3-runtime-requests.test.ts",
     "test:phase1-4-runtime": "vitest run tests/manual/phase1-4-runtime-certification.test.ts",

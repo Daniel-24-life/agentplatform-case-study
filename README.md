@@ -9,6 +9,10 @@
 
 [English overview](README.en.md)
 
+[只读静态案例页源码](case-study/index.html) · [界面验证](docs/UI_QA.md)
+
+![只读案例页预览：保留停止结论](docs/assets/case-study-desktop.png)
+
 **已停止开发 · 工程与产品复盘案例 · 2026-10-13**
 
 AgentPlatform 原本要接收一个产品目标，让主 Agent 规划并协调多个 Agent，最后交付经验证的软件。**这个核心体验没有实现。** 项目留下了一条受控的单 Task 执行链、本地桌面产品流程，以及一次在 Agent 派发前停止的正式产品试点。这个仓库展示真实代码、可复核的边界和停止原因。
@@ -75,6 +79,8 @@ Electron 36、React 18、TypeScript 5.6、electron-vite 5、Node `node:sqlite`�
 ## 本地阅读与验证
 
 需要 Windows、Node.js ≥22、pnpm ≥10 和 Git。普通测试使用临时仓库或 fake executable；真实 Agent 执行还需要独立安装并登录 Codex CLI。
+
+静态案例页不依赖 Electron 或外部资源。在仓库根目录运行 `python -m http.server 4184 --bind 127.0.0.1`，访问 <http://127.0.0.1:4184/case-study/>。也可以直接打开 HTML 文件。定向静态检查为 `pnpm test:case-study`。页面只呈现已有公开复盘，不代表项目恢复开发或正式产品试点已通过。
 
 ```powershell
 pnpm install --frozen-lockfile

@@ -13,6 +13,10 @@ AgentPlatform set out to take a product goal, have a lead agent plan and coordin
 
 [中文 README](README.md) · [Experience map](docs/EXPERIENCE_MAP.md) · [Architecture](docs/ARCHIVE_ARCHITECTURE.md) · [Data and interfaces](docs/ARCHIVE_DATA_INTERFACES.md) · [Engineering takeaways](docs/ENGINEERING_TAKEAWAYS.md) · [Retrospective](docs/PROJECT_RETROSPECTIVE.md)
 
+[Read-only case study source](case-study/index.html) · [UI verification (Chinese)](docs/UI_QA.md)
+
+![Read-only case study preview; project remains discontinued](docs/assets/case-study-desktop.png)
+
 ## The product promise and the observed result
 
 ![The product goal was saved, formal planning was blocked, and later product stages did not run](docs/assets/experience-gap.svg)
@@ -56,6 +60,8 @@ This is a **synthetic offline fixture**, not the formal pilot. Its 100% technica
 ## Reproduce the offline checks
 
 On Windows, install Node.js 22+, pnpm 10+, and Git. A real agent run also requires an independently installed and authenticated Codex CLI.
+
+The static case study has no Electron or external-resource dependency. From the repository root, run `python -m http.server 4184 --bind 127.0.0.1` and visit <http://127.0.0.1:4184/case-study/>. Opening the HTML file directly also works. Run focused static checks with `pnpm test:case-study`. This public retrospective does not mean development resumed or the formal product pilot passed.
 
 ```powershell
 pnpm install --frozen-lockfile

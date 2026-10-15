@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AgentPlatform 已停止项目的只读工程案例：目标现实、受控单 Task 流程、正式试点停止位置与源码入口。"
+    />
+    <title>AgentPlatform 案例复盘｜已停止开发</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到正文</a>
+
+    <header class="site-header">
+      <div class="nav-shell">
+        <a class="wordmark" href="#top" aria-label="AgentPlatform 案例页顶部">AgentPlatform <span>CASE 01</span></a>
+        <nav aria-label="案例页导航">
+          <a href="#reality">目标与现实</a>
+          <a href="#task-path">单 Task 流程</a>
+          <a href="#pilot">试点停止</a>
+          <a href="#source">源码入口</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <article id="top">
+        <section class="hero" aria-labelledby="page-title">
+          <div class="status-strip" role="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            已停止开发 <span aria-hidden="true">·</span> Discontinued <span aria-hidden="true">·</span> 2026-10-13
+          </div>
+          <div class="hero-grid">
+            <div>
+              <p class="eyebrow">工程与产品复盘案例 / READ-ONLY CASE STUDY</p>
+              <h1 id="page-title">一个受控任务内核，<br />没有成为完整产品。</h1>
+              <p class="lede">
+                AgentPlatform 原本要让主 Agent 接收产品目标、规划并协调多个 Agent，最后交付经验证的软件。这个核心体验没有完成。项目留下了一条可审查的单 Task 执行链；首次正式产品试点停在 Agent 派发前。
+              </p>
+              <div class="hero-actions" aria-label="主要阅读入口">
+                <a class="button primary" href="#pilot">先看停止位置</a>
+                <a class="button secondary" href="#source">进入源码</a>
+              </div>
+            </div>
+            <aside class="case-file" aria-label="案例状态摘要">
+              <p class="case-file-title">CASE FILE / 结论摘要</p>
+              <dl>
+                <div><dt>项目状态</dt><dd><strong>DISCONTINUED</strong></dd></div>
+                <div><dt>单 Task 内核</dt><dd>指定路径 PASS<br /><span>广泛可靠性 PARTIAL</span></dd></div>
+                <div><dt>产品级交付</dt><dd><strong>NOT_RUN</strong></dd></div>
+                <div><dt>动态多 Agent</dt><dd>未实现</dd></div>
+              </dl>
+              <p class="boundary-note">局部技术验收通过；产品目标仍未交付。</p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section" id="reality" aria-labelledby="reality-title">
+          <header class="section-heading">
+            <p class="section-index">01 / GOAL &amp; REALITY</p>
+            <h2 id="reality-title">目标与现实，分开陈述</h2>
+            <p>同一个仓库里存在不同等级的证据。先把它们拆开，才能正确理解“做成了什么”。</p>
+          </header>
+          <div class="comparison">
+            <section class="comparison-block intended" aria-labelledby="intended-title">
+              <p class="label">最初目标</p>
+              <h3 id="intended-title">从产品目标到可用产品</h3>
+              <ol class="compact-flow">
+                <li>用户提交产品目标</li>
+                <li>主 Agent 规划与拆分</li>
+                <li>多个 Agent 协作实现</li>
+                <li>平台验证、整合与交付</li>
+              </ol>
+            </section>
+            <section class="comparison-block observed" aria-labelledby="observed-title">
+              <p class="label">停止时的现实</p>
+              <h3 id="observed-title">核心产品闭环没有运行</h3>
+              <dl class="outcome-list">
+                <div><dt>可验证成果</dt><dd>一次受控单 Task 功能路径</dd></div>
+                <div><dt>正式产品试点</dt><dd>规划资格门禁阻断</dd></div>
+                <div><dt>模型调用 / 开发 Task / AgentRun</dt><dd><strong>0 / 0 / 0</strong></dd></div>
+                <div><dt>用户产品交付</dt><dd><strong>NOT_RUN</strong></dd></div>
+              </dl>
+            </section>
+          </div>
+          <p class="evidence-callout">
+            <strong>证据边界：</strong>Architect → Worker → Reviewer 是单 Task 串行角色链；动态多 Agent 产品协作尚未实现。
+          </p>
+        </section>
+
+        <section class="section task-section" id="task-path" aria-labelledby="task-title">
+          <header class="section-heading inverse">
+            <p class="section-index">02 / CONTROLLED TASK</p>
+            <h2 id="task-title">平台拥有事实，Agent 提交候选</h2>
+            <p>这条链让一次代码改动可审查；自主产品开发仍未完成。</p>
+          </header>
+          <ol class="task-path">
+            <li>
+              <span class="step-number">01</span>
+              <div><h3>批准 TaskSpec</h3><p>用户确认范围、验收标准和测试命令；写入阶段只接受已批准规范。</p></div>
+            </li>
+            <li>
+              <span class="step-number">02</span>
+              <div><h3>隔离 Attempt</h3><p>平台核对 clean 状态与 base SHA，再创建唯一分支和受管 worktree。</p></div>
+            </li>
+            <li>
+              <span class="step-number">03</span>
+              <div><h3>运行 Worker</h3><p>Codex CLI 在受限工作区写入；超时、取消与输出异常分别留痕。</p></div>
+            </li>
+            <li>
+              <span class="step-number">04</span>
+              <div><h3>平台测试与硬门禁</h3><p>平台执行已批准测试并检查 Diff、范围和证据；硬门禁失败后流程停止。</p></div>
+            </li>
+            <li>
+              <span class="step-number">05</span>
+              <div><h3>只读终审与交接</h3><p>Reviewer 不修改 worktree；用户收到分支、Diff 与证据，平台不自动提交、推送或合并。</p></div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="section" id="pilot" aria-labelledby="pilot-title">
+          <header class="section-heading">
+            <p class="section-index">03 / FORMAL PILOT</p>
+            <h2 id="pilot-title">第一次正式产品试点，停在派发之前</h2>
+          </header>
+          <div class="stop-layout">
+            <div class="stop-marker" aria-label="停止状态：运行时未取得资格">
+              <span>STOP</span>
+              <strong>RUNTIME_<br />NOT_QUALIFIED</strong>
+            </div>
+            <div class="pilot-detail">
+              <p class="pilot-summary">真实产品目标成功保存，但正式 App 请求主 Agent 规划时，资格状态为不可用。授权未被使用并随后撤销。</p>
+              <ol class="pilot-track" aria-label="正式试点进度">
+                <li class="done"><span>已完成</span><strong>保存产品目标</strong></li>
+                <li class="blocked"><span>在此停止</span><strong>请求主 Agent 规划</strong><code>RUNTIME_NOT_QUALIFIED</code></li>
+                <li><span>未运行</span><strong>Agent 派发</strong></li>
+                <li><span>未运行</span><strong>开发、验证与交付</strong></li>
+              </ol>
+              <p class="source-note">具体接缝：正式启动创建规划器时没有导入已验证的 CLI / profile / schema / 环境资格；规划器资格参数缺省为 false。运行时资格需要完整的验证与 App 绑定流程。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section fixture-section" id="fixture" aria-labelledby="fixture-title">
+          <header class="section-heading">
+            <p class="section-index">04 / UI EVIDENCE</p>
+            <h2 id="fixture-title">界面记录了技术状态，产品闭环仍未运行</h2>
+          </header>
+          <figure>
+            <div class="fixture-label">离线合成夹具 / SYNTHETIC OFFLINE FIXTURE</div>
+            <img
+              src="../docs/assets/product-metrics-synthetic-fixture.png"
+              alt="AgentPlatform 产品历史指标界面，数据来自离线合成夹具，并非正式产品试点"
+              width="900"
+              height="563"
+              loading="lazy"
+            />
+            <figcaption>
+              Phase 1.34 的离线合成夹具。图中“100% 技术完成率”只表示夹具中 1/1 个关联 Task 的技术状态。首次正式产品试点没有使用这组数据，真实目标也没有完成交付。
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="section source-section" id="source" aria-labelledby="source-title">
+          <header class="section-heading">
+            <p class="section-index">05 / ENGINEERING TRADE-OFFS</p>
+            <h2 id="source-title">工程取舍与源码入口</h2>
+            <p>每一项都同时给出选择、代价与实现位置。源码保留停止开发时的真实边界。</p>
+          </header>
+          <div class="source-list">
+            <article>
+              <p class="label">取舍 01</p><h3>平台运行测试，不采信完成声明</h3>
+              <p>退出码、Diff、哈希与平台 TestRun 才是事实。代价是编排器需要维护更多状态和证据身份。</p>
+              <div class="code-links"><a href="../src/main/testing/test-runner.ts">test-runner.ts</a><a href="../src/main/gate/deterministic-gate.ts">deterministic-gate.ts</a></div>
+            </article>
+            <article>
+              <p class="label">取舍 02</p><h3>worktree 管版本边界，沙箱管权限边界</h3>
+              <p>干净基线和独立 Attempt 负责版本审查边界；执行器沙箱另行负责权限边界。</p>
+              <div class="code-links"><a href="../src/main/git/git-service.ts">git-service.ts</a><a href="../src/main/adapters/codex/codex-adapter.ts">codex-adapter.ts</a></div>
+            </article>
+            <article>
+              <p class="label">取舍 03</p><h3>硬门禁结果高于 Reviewer 判断</h3>
+              <p>终审只读且必须核对证据身份；这提高了可审计性，也让流程无法靠模型文字绕过失败。</p>
+              <div class="code-links"><a href="../src/main/orchestrator/task-orchestrator.ts">task-orchestrator.ts</a><a href="../schemas/final-gate.schema.json">final-gate.schema.json</a></div>
+            </article>
+            <article>
+              <p class="label">取舍 04</p><h3>未取得资格，就明确停止</h3>
+              <p>规划器默认不可用避免伪造正式能力；同时暴露了资格流程未接入正式 App 的产品缺口。</p>
+              <div class="code-links"><a href="../src/main/index.ts">main/index.ts</a><a href="../src/main/products/product-planner.ts">product-planner.ts</a></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section closing" aria-labelledby="closing-title">
+          <p class="section-index">CASE CONCLUSION</p>
+          <h2 id="closing-title">保留下来的机制与未完成的目标</h2>
+          <p>仓库保留了受控执行、硬门禁、证据哈希和版本化目标。正式规划资格、动态多 Agent 协作和真实产品交付停留在未完成状态。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="../docs/PROJECT_RETROSPECTIVE.md">阅读完整复盘</a>
+            <a class="button secondary" href="../docs/SOURCE_READING_GUIDE.md">按路线读源码</a>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <footer>
+      <p>AgentPlatform · 已停止项目的只读工程案例</p>
+      <a href="#top">返回顶部</a>
+    </footer>
+  </body>
+</html>
