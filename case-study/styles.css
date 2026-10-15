@@ -30,6 +30,7 @@ h1, h2, h3 { line-height: 1.15; text-wrap: balance; }
 .skip-link:focus { transform: translateY(0); }
 .site-header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid var(--line); background: #102536; }
 .site-header a { color: #f3f6f8; }
+.site-header a:hover { color: #ffffff; background: #214653; }
 .nav-shell { width: min(76rem, calc(100% - 3rem)); min-height: 4.5rem; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
 .wordmark { min-height: 2.75rem; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; color: var(--ink); font-weight: 800; text-decoration: none; }
 .wordmark span, .label, .section-index, .eyebrow, .case-file-title { font-size: 0.8125rem; font-weight: 800; letter-spacing: normal; text-transform: uppercase; }
