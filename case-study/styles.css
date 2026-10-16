@@ -106,10 +106,17 @@ h1 { max-width: none; margin-bottom: 1.5rem; font-size: clamp(2rem, 3.4vw, 3rem)
 .pilot-track code { display: inline-block; max-width: 100%; margin-top: 0.35rem; padding: 0.1rem 0.35rem; color: #681f1f; background: var(--stop-soft); overflow-wrap: anywhere; }
 .source-note { padding: 1rem 1.25rem; border-left: 0.35rem solid var(--stop); background: var(--paper); }
 
-.fixture-section figure { margin: 0; position: relative; }
-.fixture-label { position: relative; z-index: 1; width: fit-content; margin: 0 0 -0.8rem 1rem; padding: 0.45rem 0.75rem; color: var(--paper); background: var(--accent); font-size: 0.8125rem; font-weight: 900; }
+.fixture-section figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(17rem, 0.8fr); gap: 1rem 1.5rem; align-items: start; }
+.fixture-label { grid-column: 1 / -1; width: fit-content; padding: 0.45rem 0.75rem; color: var(--paper); background: var(--accent); font-size: 0.8125rem; font-weight: 900; }
+.fixture-image-link { display: block; min-width: 0; }
 .fixture-section img { width: 100%; border: 1px solid var(--line); background: var(--paper); }
-figcaption { max-width: 58rem; margin-top: 1rem; color: var(--muted); font-size: 0.9375rem; }
+.fixture-section figcaption { min-width: 0; padding: 1.25rem; border-top: 0.3rem solid var(--accent); background: var(--paper); color: var(--muted); font-size: 0.9375rem; }
+.fixture-section figcaption h3 { margin-bottom: 1rem; color: var(--ink); font-size: 1.25rem; }
+.fixture-section figcaption dl { margin: 0 0 1.25rem; }
+.fixture-section figcaption dl div { padding: 0.7rem 0; border-top: 1px solid var(--line); }
+.fixture-section figcaption dt { color: var(--accent-dark); font-size: 0.8125rem; font-weight: 800; }
+.fixture-section figcaption dd { margin: 0.2rem 0 0; color: var(--ink); font-weight: 700; }
+.fixture-section figcaption p { margin: 0; }
 
 .source-list { border-top: 2px solid var(--ink); }
 .source-list article { padding: 2rem 0; display: grid; grid-template-columns: 0.35fr 1fr 1.35fr; gap: 1.5rem; border-bottom: 1px solid var(--line); }
@@ -130,6 +137,7 @@ footer a { min-height: 2.75rem; display: inline-flex; align-items: center; font-
   nav { max-width: 27rem; flex-wrap: wrap; justify-content: flex-end; gap: 0 1rem; }
   nav a { min-height: 2.5rem; }
   .hero-grid, .stop-layout { grid-template-columns: 1fr; }
+  .fixture-section figure { grid-template-columns: 1fr; }
   .case-file { max-width: 35rem; }
   .task-path { grid-template-columns: 1fr; }
   .task-path li, .task-path li + li { padding: 1.25rem 0; border-left: 0; display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; }

@@ -16,6 +16,10 @@ describe("static case study", () => {
     expect(html).toContain("动态多 Agent");
     expect(html).toContain("未实现");
     expect(html.match(/离线合成夹具/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(html).toContain("100% 的分母");
+    expect(html).toContain("1 / 1 个关联 Task 技术通过");
+    expect(html).toContain("product-metrics-refined-synthetic.png");
+    expect(html).toContain("查看调整前的历史截图");
   });
 
   it("uses native document structure and has a single h1", () => {

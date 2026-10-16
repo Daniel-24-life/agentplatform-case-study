@@ -45,9 +45,9 @@ A human approves the TaskSpec. The platform creates a managed worktree, runs the
 
 ## Product UI, with a clear evidence label
 
-<img src="docs/assets/product-metrics-synthetic-fixture.png" alt="Product history metrics in a synthetic offline UI fixture" width="900" />
+<img src="docs/assets/product-metrics-refined-synthetic.png" alt="Refined product history metrics UI, captured with a copy of the synthetic offline fixture; 100% means one of one linked tasks passed technically" width="847" />
 
-This is a **synthetic offline fixture**, not the formal pilot. Its 100% technical completion rate means 1/1 linked fixture task reached a technical state; it does not mean a real product was delivered. The [experience map](docs/EXPERIENCE_MAP.md) explains the UI, local connections, and missing capabilities.
+This screenshot was captured on 2026-10-16 after a readability update to the existing React/Electron UI, using a copy of the Phase 1.34 **synthetic offline fixture**. It is not the formal pilot. Its 100% task pass rate means 1/1 linked fixture task reached a technical state; it does not mean a real product was delivered. The [original historical screenshot](docs/assets/product-metrics-synthetic-fixture.png) remains available for comparison. The [experience map](docs/EXPERIENCE_MAP.md) explains the UI, local connections, and missing capabilities.
 
 ## How to study it
 

@@ -41,9 +41,9 @@ AgentPlatform 原本要接收一个产品目标，让主 Agent 规划并协调�
 
 ## 产品 UI：它显示了什么
 
-下图来自 Phase 1.34 Windows 开发包的**离线合成夹具**，展示产品历史运行指标界面。图中的“100% 技术完成率”只表示夹具内 1/1 个关联 Task 的技术状态，**不是**真实产品目标完成率，也不是用户业务验收。
+下图是 2026-10-16 在现有 React/Electron 界面上完成可读性调整后，用 Phase 1.34 **离线合成夹具的副本**重新截取的画面。先说明统计口径，再展示任务指标和记录覆盖情况。图中的“100%”只表示夹具内 1/1 个关联 Task 的技术状态，**不是**真实产品目标完成率，也不是用户业务验收。[调整前的历史截图](docs/assets/product-metrics-synthetic-fixture.png)仍保留供对照。
 
-<img src="docs/assets/product-metrics-synthetic-fixture.png" alt="AgentPlatform 产品历史运行指标界面，数据来自离线合成夹具" width="900" />
+<img src="docs/assets/product-metrics-refined-synthetic.png" alt="优化后的 AgentPlatform 产品历史运行指标界面；数据来自离线合成夹具副本，100% 只代表 1/1 个任务技术通过" width="847" />
 
 产品层实现了目标版本、计划确认、单 Task 关联、有限运行、静态预览和未发布交付。截图展示的是历史指标的只读视图；它无法补上正式规划资格或产品级动态协作。界面元素、数据来源和连接边界见[体验地图](docs/EXPERIENCE_MAP.md#ui-展示的是什么)。
 

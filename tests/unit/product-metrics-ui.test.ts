@@ -6,7 +6,7 @@ import { ProductMetricsPanel } from "../../src/renderer/src/features/products/Pr
 describe("product metrics panel", () => {
   it("labels historical task denominator, confirmations, duration and usage coverage", () => {
     const html = renderToStaticMarkup(React.createElement(ProductMetricsPanel, { productId: "P1" }));
-    for (const text of ["历史运行指标", "统计当前产品关联的全部历史任务", "只读", "刷新指标"]) expect(html).toContain(text);
+    for (const text of ["历史运行指标", "统计当前产品关联的全部历史任务", "不代表产品目标完成、业务验收", "只读", "刷新指标"]) expect(html).toContain(text);
   });
   it("is read only and does not offer task or model actions", () => {
     const html = renderToStaticMarkup(React.createElement(ProductMetricsPanel, { productId: "P1" }));

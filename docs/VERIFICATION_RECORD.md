@@ -27,8 +27,10 @@ pnpm build
 
 随后为提升展示可读性新增两张 SVG、体验地图、工程沉淀和 TaskSpec 示例导览，并修正示例中的旧路径与虚构测试命令。受示例影响的 `task-spec`、`schema-validation`、`product-run-service` 三个测试文件重新运行，**41 passed、0 failed**。平台测试执行入口 `test-runner.ts` 仅展开格式与类型排版，未改变执行分支；相关单元和集成测试 **5 passed、0 failed**，`typecheck`、`lint` 和 `build` 再次通过。14 个 Markdown 文件的本地链接和 2 张 SVG 的 XML 结构检查通过。这些定向复核不等于重新执行完整 647 项测试；完整测试数字对应展示优化前的精选副本。
 
+2026-10-16 对历史运行指标界面做了可读性调整：将任务技术通过率的统计口径前置，区分产品验收，并重排确认记录与 usage 覆盖情况。`typecheck`、`lint`、`electron-vite build` 通过，定向 UI 测试 **2 passed、0 failed**。以复制的离线合成数据库启动构建后的 Electron 应用，在 1440、768、375 CSS 像素视口检查指标内容和水平溢出；三种宽度的指标面板均未水平溢出。README 的新截图是 1440 视口中指标区域的直接截取。此项是展示与解释优化，不是重新验证正式试点、真实模型资格或完整测试集。
+
 源码中的可检查实现包括 [`task-orchestrator.ts`](../src/main/orchestrator/task-orchestrator.ts)、[`git-service.ts`](../src/main/git/git-service.ts)、[`deterministic-gate.ts`](../src/main/gate/deterministic-gate.ts)、[`database.ts`](../src/main/db/database.ts)、[`schemas/`](../schemas/) 与 [`tests/`](../tests/)。
 
 ## 未随展示仓库提供的材料
 
-真实运行日志、用户数据库、原始运行截图、受管 worktree、完整会话、WSL 环境与 Windows 安装包留在本地，不作为公开样例数据。仓库仅保留 README 中明确标注的离线合成夹具截图。原阶段评估和哈希索引仍在项目档案中；哈希索引不是证据文件的备份。因此公开仓库读者可复核代码及离线测试，但不能独立复现所有历史真实运行结论。
+真实运行日志、用户数据库、原始运行截图、受管 worktree、完整会话、WSL 环境与 Windows 安装包留在本地，不作为公开样例数据。仓库仅保留明确标注的离线合成夹具截图，包括调整前后的两张界面图。原阶段评估和哈希索引仍在项目档案中；哈希索引不是证据文件的备份。因此公开仓库读者可复核代码及离线测试，但不能独立复现所有历史真实运行结论。

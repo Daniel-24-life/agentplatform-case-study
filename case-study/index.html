@@ -20,6 +20,7 @@
           <a href="#reality">目标与现实</a>
           <a href="#task-path">单 Task 流程</a>
           <a href="#pilot">试点停止</a>
+          <a href="#fixture">界面证据</a>
           <a href="#source">源码入口</a>
         </nav>
       </div>
@@ -150,15 +151,23 @@
           </header>
           <figure>
             <div class="fixture-label">离线合成夹具 / SYNTHETIC OFFLINE FIXTURE</div>
-            <img
-              src="../docs/assets/product-metrics-synthetic-fixture.png"
-              alt="AgentPlatform 产品历史指标界面，数据来自离线合成夹具，并非正式产品试点"
-              width="900"
-              height="563"
-              loading="lazy"
-            />
+            <a class="fixture-image-link" href="../docs/assets/product-metrics-refined-synthetic.png" aria-label="查看优化后的合成夹具界面原尺寸截图">
+              <img
+                src="../docs/assets/product-metrics-refined-synthetic.png"
+                alt="优化后的历史运行指标界面，先说明技术统计口径，再显示 1/1 个关联任务通过、确认记录和 token 覆盖情况"
+                width="847"
+                height="630"
+                loading="lazy"
+              />
+            </a>
             <figcaption>
-              Phase 1.34 的离线合成夹具。图中“100% 技术完成率”只表示夹具中 1/1 个关联 Task 的技术状态。首次正式产品试点没有使用这组数据，真实目标也没有完成交付。
+              <h3>如何读这张图</h3>
+              <dl>
+                <div><dt>数据来源</dt><dd>Phase 1.34 离线合成夹具的副本</dd></div>
+                <div><dt>100% 的分母</dt><dd>1 / 1 个关联 Task 技术通过</dd></div>
+                <div><dt>产品结果</dt><dd>正式试点未运行 Agent 派发或交付</dd></div>
+              </dl>
+              <p>这是 2026-10-16 更新后的 Electron 界面截图。<a href="../docs/assets/product-metrics-synthetic-fixture.png">查看调整前的历史截图</a>。合成数据不代表真实产品目标已完成。</p>
             </figcaption>
           </figure>
         </section>

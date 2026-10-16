@@ -37,17 +37,22 @@ export const ProductMetricsPanel = ({ productId, disabled = false }: { productId
 
   return <section className="product-metrics-panel" aria-label="产品历史运行指标">
     <div className="section-heading"><h3>历史运行指标</h3><StatusBadge>只读</StatusBadge></div>
-    <p className="product-help">统计当前产品关联的全部历史任务，不替代当前计划进度。</p>
+    <div className="product-metrics-scope" role="note">
+      <strong>统计口径：关联任务的技术运行</strong>
+      <p>统计当前产品关联的全部历史任务。通过率只反映任务技术状态，不代表产品目标完成、业务验收或当前计划进度。</p>
+    </div>
     {loading && !metrics && <p role="status">读取指标中…</p>}
     {metrics && <>
       <div className="product-metrics-grid">
-        <div><span>技术完成率</span><strong>{rateText(metrics.technicalCompletionRate)}</strong><small>{metrics.passedTaskCount} / {metrics.taskCount} 个关联任务</small></div>
+        <div><span>任务技术通过率</span><strong>{rateText(metrics.technicalCompletionRate)}</strong><small>{metrics.passedTaskCount} / {metrics.taskCount} 个关联任务通过</small></div>
         <div><span>执行尝试</span><strong>{metrics.attemptCount}</strong><small>返修 {metrics.repairAttemptCount} · 失败 {metrics.failedAttemptCount}</small></div>
-        <div><span>已记录运行时长</span><strong>{durationText(metrics.recordedDurationMs)}</strong><small>{metrics.durationAvailableRuns} / {metrics.runCount} 次有时长记录</small></div>
-        <div><span>运行记录</span><strong>{metrics.runCount}</strong><small>AgentRun {metrics.agentRunCount}</small></div>
+        <div><span>已记录运行时长</span><strong>{durationText(metrics.recordedDurationMs)}</strong><small>{metrics.durationAvailableRuns} / {metrics.runCount} 次运行有时长记录</small></div>
+        <div><span>运行记录</span><strong>{metrics.runCount}</strong><small>其中 AgentRun {metrics.agentRunCount} 次</small></div>
       </div>
-      <div className="product-metrics-confirmations"><h4>关键确认记录</h4><p>记录确认事实，不代表全部人工干预。</p><ul><li>方向 {metrics.directionConfirmations}</li><li>计划 {metrics.planConfirmations}</li><li>规范 {metrics.specApprovals}</li><li>升级 {metrics.escalationApprovals}</li><li>合计 {metrics.keyConfirmationCount}</li></ul></div>
-      <div className="product-metrics-usage"><h4>已报告 token</h4><p>时长为运行累计（含平台测试）；usage 统计关联任务的 Agent 已报告字段，缺失为未知，各字段独立累计。</p><p>usage 覆盖率：{rateText(metrics.usageCoverage)}（{metrics.usageAvailableRuns} / {metrics.agentRunCount} 个 AgentRun）</p><dl><dt>输入</dt><dd>{numberText(metrics.inputTokens)}</dd><dt>输出</dt><dd>{numberText(metrics.outputTokens)}</dd><dt>总量（报告值）</dt><dd>{numberText(metrics.totalTokens)}</dd></dl></div>
+      <div className="product-metrics-details">
+        <div className="product-metrics-confirmations"><h4>关键确认记录</h4><p>只统计已记录的确认，不代表全部人工干预。</p><dl><div><dt>方向</dt><dd>{metrics.directionConfirmations}</dd></div><div><dt>计划</dt><dd>{metrics.planConfirmations}</dd></div><div><dt>规范</dt><dd>{metrics.specApprovals}</dd></div><div><dt>升级</dt><dd>{metrics.escalationApprovals}</dd></div><div className="product-metrics-total"><dt>合计</dt><dd>{metrics.keyConfirmationCount}</dd></div></dl></div>
+        <div className="product-metrics-usage"><h4>已报告 token</h4><p className="product-metrics-coverage">有 usage 记录：<strong>{metrics.usageAvailableRuns} / {metrics.agentRunCount} 次 AgentRun</strong>（{rateText(metrics.usageCoverage)}）</p><dl><div><dt>输入</dt><dd>{numberText(metrics.inputTokens)}</dd></div><div><dt>输出</dt><dd>{numberText(metrics.outputTokens)}</dd></div><div><dt>总量（报告值）</dt><dd>{numberText(metrics.totalTokens)}</dd></div></dl><p>缺失的 usage 为未知，各字段独立累计；运行时长包含平台测试。</p></div>
+      </div>
     </>}
     {error && <InlineError>{error}</InlineError>}
     <Button variant="secondary" disabled={disabled || loading} onClick={() => void refresh()}>刷新指标</Button>

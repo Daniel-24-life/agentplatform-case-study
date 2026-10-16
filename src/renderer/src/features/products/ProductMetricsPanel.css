@@ -1,13 +1,24 @@
-.product-metrics-panel { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; display: grid; gap: 12px; }
+.product-metrics-panel { margin-top: 28px; border-top: 1px solid var(--ui-color-border); padding-top: 20px; display: grid; gap: 16px; }
+.product-metrics-scope { padding: 14px 16px; border-left: 4px solid var(--ui-color-primary); border-radius: var(--ui-radius-sm); background: var(--ui-color-surface-muted); line-height: 1.5; }
+.product-metrics-scope strong { display: block; color: var(--ui-color-text); }
+.product-metrics-scope p { margin: 4px 0 0; color: var(--ui-color-text-muted); }
 .product-metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.product-metrics-grid > div { padding: 12px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); min-width: 0; }
+.product-metrics-grid > div { padding: 16px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); min-width: 0; background: var(--ui-color-surface); }
 .product-metrics-grid span, .product-metrics-grid small { display: block; color: var(--ui-color-text-muted); }
-.product-metrics-grid strong { display: block; margin: 6px 0; font-size: 20px; overflow-wrap: anywhere; }
-.product-metrics-confirmations, .product-metrics-usage { padding-top: 8px; }
-.product-metrics-confirmations h4, .product-metrics-usage h4 { margin-bottom: 4px; }
-.product-metrics-confirmations p, .product-metrics-usage p { color: var(--ui-color-text-muted); margin: 0; }
-.product-metrics-confirmations ul { display: flex; flex-wrap: wrap; gap: 16px; padding-left: 20px; }
-.product-metrics-usage dl { display: flex; gap: 20px; flex-wrap: wrap; }
-.product-metrics-usage dt { color: var(--ui-color-text-muted); }
-.product-metrics-usage dd { margin: 0; font-weight: 600; }
-@media (max-width: 850px) { .product-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.product-metrics-grid strong { display: block; margin: 8px 0; font-size: 24px; line-height: 1.25; overflow-wrap: anywhere; }
+.product-metrics-grid small { line-height: 1.45; }
+.product-metrics-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.product-metrics-confirmations, .product-metrics-usage { min-width: 0; padding: 16px; border: 1px solid var(--ui-color-border); border-radius: var(--ui-radius-md); }
+.product-metrics-confirmations h4, .product-metrics-usage h4 { margin: 0 0 6px; }
+.product-metrics-confirmations p, .product-metrics-usage p { color: var(--ui-color-text-muted); margin: 0; line-height: 1.5; }
+.product-metrics-confirmations dl, .product-metrics-usage dl { display: grid; gap: 0; margin: 12px 0 0; }
+.product-metrics-confirmations dl > div, .product-metrics-usage dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--ui-color-border); }
+.product-metrics-confirmations dt, .product-metrics-usage dt { color: var(--ui-color-text-muted); }
+.product-metrics-confirmations dd, .product-metrics-usage dd { margin: 0; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.product-metrics-confirmations .product-metrics-total { border-bottom: 0; font-weight: 600; }
+.product-metrics-usage .product-metrics-coverage { margin-top: 8px; }
+.product-metrics-usage .product-metrics-coverage strong { color: var(--ui-color-text); }
+.product-metrics-usage dl + p { margin-top: 12px; font-size: 13px; }
+@media (max-width: 1100px) { .product-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .product-metrics-details { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .product-metrics-grid { grid-template-columns: 1fr; } }
