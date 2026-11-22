@@ -19,3 +19,18 @@ coverage/
 *.pfx
 .env
 .env.*
+
+# Local secrets and generated artifacts
+.env*
+Cookies
+cookies.json
+.venv/
+__pycache__/
+.pytest_cache/
+.next/
+.astro/
+.runtime/
+.DS_Store
+Thumbs.db
+*.tmp
+build/
