@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23
+
+- Added light and dark covers for isolated attempts, typed contracts and review evidence.
+- Consolidated the default English overview and kept the Chinese entry.
+
 ## UI evidence readability update — 2026-10-16
 
 - Clarified the historical task metrics in the Electron UI and kept the original synthetic screenshot as a historical comparison.

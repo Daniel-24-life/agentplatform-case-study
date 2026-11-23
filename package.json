@@ -10,7 +10,7 @@
     "pnpm": ">=10"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.main.json && tsc -p tsconfig.renderer.json",
+    "typecheck": "tsc -p config/tsconfig.main.json && tsc -p config/tsconfig.renderer.json",
     "lint": "eslint src/**/*.ts src/**/*.tsx tests/**/*.ts",
     "test": "vitest run",
     "test:case-study": "vitest run tests/unit/case-study-static.test.ts",
@@ -27,7 +27,7 @@
     "phase1-6:offline": "vitest run tests/unit/bounded-runtime-certification.test.ts tests/unit/process-runner-hash-only.test.ts tests/unit/phase1-6-runtime-certification-harness.test.ts tests/unit/phase1-6-codex-executor.test.ts tests/unit/phase1-6-preparation.test.ts tests/unit/phase1-6-real-entry.test.ts tests/manual/phase1-6-runtime-certification.test.ts tests/manual/phase1-6-preparation.test.ts tests/manual/phase1-6-real-execution.test.ts",
     "phase1-6:prepare": "vitest run tests/manual/phase1-6-preparation.test.ts -t \"prepares the immutable ten-case registration\"",
     "phase1-6:execute": "vitest run tests/manual/phase1-6-real-execution.test.ts -t \"executes only the sealed ten-case registration\"",
-    "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.renderer.json && electron-vite build",
+    "build": "tsc -p config/tsconfig.main.json && tsc -p config/tsconfig.renderer.json && electron-vite build",
     "package:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-windows.ps1",
     "dev": "electron-vite dev"
   },

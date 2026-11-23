@@ -3,12 +3,12 @@
   "compilerOptions": {
     "lib": ["ES2022", "DOM"],
     "types": ["node", "react", "react-dom"],
-    "outDir": "dist/renderer"
+    "outDir": "../dist/renderer"
   },
   "include": [
-    "src/renderer/**/*.ts",
-    "src/renderer/**/*.tsx",
-    "src/shared/**/*.ts",
-    "src/preload/types.d.ts"
+    "../src/renderer/**/*.ts",
+    "../src/renderer/**/*.tsx",
+    "../src/shared/**/*.ts",
+    "../src/preload/types.d.ts"
   ]
 }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img">
+<title>AgentPlatform Case Study</title>
+<rect x="0" y="0" width="1280" height="640" fill="#FAF9F6"/>
+<line x1="68" y1="63" x2="1212" y2="63" stroke="#D9D6CC"/>
+<line x1="68" y1="565" x2="1212" y2="565" stroke="#D9D6CC"/>
+<text x="77" y="159" fill="#243028" font-size="73" font-family="Georgia, serif">AgentPlatform Case Study</text>
+<text x="80" y="214" fill="#6B6F68" font-size="26" font-family="system-ui, sans-serif">Isolated attempts, typed contracts and review evidence</text>
+<polyline points="160,356 252,356 334,398 575,398 640,356 731,356 818,398 1098,398" fill="none" stroke="#6B6F68" stroke-width="2"/>
+<polyline points="160,398 252,398 334,398 575,398 640,398 731,398 818,398 1098,398" fill="none" stroke="#2F6B4F" stroke-width="2"/>
+<polyline points="160,440 252,440 334,398 575,398 640,440 731,440 818,398 1098,398" fill="none" stroke="#6B6F68" stroke-width="2"/>
+<circle cx="160" cy="398" r="9" fill="#2F6B4F"/>
+<text x="160" y="501" fill="#243028" font-size="22" font-family="system-ui, sans-serif">Task specification</text>
+<circle cx="575" cy="398" r="9" fill="#2F6B4F"/>
+<text x="575" y="501" fill="#243028" font-size="22" font-family="system-ui, sans-serif">Isolated attempt</text>
+<circle cx="1098" cy="398" r="9" fill="#2F6B4F"/>
+<text x="928" y="501" fill="#243028" font-size="22" font-family="system-ui, sans-serif">Evidence and gate</text>
+</svg>

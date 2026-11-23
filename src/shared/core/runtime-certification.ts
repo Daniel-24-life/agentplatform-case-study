@@ -250,10 +250,10 @@ const SOURCE_SNAPSHOT_ROOT_FILES = new Set([
   "package.json",
   "pnpm-lock.yaml",
   "pnpm-workspace.yaml",
-  "tsconfig.base.json",
+  "config/tsconfig.base.json",
   "tsconfig.json",
-  "tsconfig.main.json",
-  "tsconfig.renderer.json",
+  "config/tsconfig.main.json",
+  "config/tsconfig.renderer.json",
   "vitest.config.ts"
 ]);
 

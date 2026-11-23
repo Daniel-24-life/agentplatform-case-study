@@ -1,8 +1,14 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/cover-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/cover-light.svg">
+  <img src="docs/cover-light.svg" alt="Project overview" width="1280">
+</picture>
+
 # AgentPlatform Case Study
 
 A retrospective on a TypeScript/Electron prototype that delivered a bounded single-task execution path and fell short of its broader product goal.
 
-[中文说明](README.zh.md) · [Portfolio](https://github.com/Daniel-24-life/AIfile)
+[中文说明](README.zh.md) · [Portfolio](https://github.com/Daniel-24-life/portfolio)
 
 ![AgentPlatform history panel captured using a synthetic fixture](docs/assets/product-metrics-refined-synthetic.png)
 
